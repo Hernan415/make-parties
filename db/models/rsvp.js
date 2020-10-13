@@ -9,9 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-     Rsvp.associate = function(models) {
+    static associate(models) {
+      Rsvp.associate = function(models) {
         Rsvp.belongsTo(models.Event); // EventId
       };
+    }
   };
   Rsvp.init({
     name: DataTypes.STRING,
