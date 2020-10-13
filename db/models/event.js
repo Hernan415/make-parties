@@ -1,25 +1,18 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const sequelize = require('sequelize');
+
+// models/todo.js
 module.exports = (sequelize, DataTypes) => {
-  class Event extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    Event.associate = function(models) {
-      Event.hasMany(models.Rsvp);
-    }
-  };
-  Event.init({
+  const Event = sequelize.define('Event', {
     title: DataTypes.STRING,
     desc: DataTypes.TEXT,
     imgUrl: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Event',
-  });
+  }, {});
+
+  Event.associate = function(models) {
+    Event.hasMany(models.Rsvp);
+  };
+
   return Event;
 };

@@ -1,3 +1,4 @@
+// controllers/rsvps.js
 
 module.exports = (app, models) => {
   // NEW
@@ -16,6 +17,8 @@ module.exports = (app, models) => {
         console.log(err)
     });
   });
+
+  // DESTROY
   // DELETE
   app.delete('/events/:eventId/rsvps/:id', (req, res) => {
       models.Rsvp.findByPk(req.params.id).then(rsvp => {
@@ -25,3 +28,4 @@ module.exports = (app, models) => {
           console.log(err);
       });
   });
+}
