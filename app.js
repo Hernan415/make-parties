@@ -5,6 +5,8 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const express = require('express')
 const methodOverride = require('method-override')
 const app = express()
+const jwtExpress = require('express-jwt');
+
 
 // INITIALIZE BODY-PARSER AND ADD IT TO APP
 const bodyParser = require('body-parser');
@@ -21,6 +23,29 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main', handlebars: allowInsecu
 app.set('view engine', 'handlebars');
 
 
+app.use(jwtExpress({
+    secret: "AUTH-SECRET,
+    credentialsRequired: true,
+    getToken: function fromHeaderOrQuerystring (req) {
+      if (req.cookies.mpJWT) {
+        req.session.returnTo = null;
+        return req.cookies.mpJWT;
+      }
+      return null;
+    }
+  }).unless({ path: ['/', '/login', '/sign-up'] })
+);
+
+app.use(req, res, next => {
+  // if a valid JWT token is present
+  if (req.user) {
+    // Look up the user's record
+    User.findByPk(req.user.id, (currentUser) => {
+      // make the user object available in all controllers and templates
+      res.locals.currentUser = currentUser;
+    });
+  };
+});
 // The following line must appear AFTER const app = express() and before your routes!
 app.use(bodyParser.urlencoded({ extended: true }));
 
