@@ -1,18 +1,24 @@
 'use strict';
-
-const sequelize = require('sequelize');
-
-// models/todo.js
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const Event = sequelize.define('Event', {
-    title: DataTypes.STRING,
-    desc: DataTypes.TEXT,
-    imgUrl: DataTypes.STRING
-  }, {});
-
-  Event.associate = function(models) {
-    Event.hasMany(models.Rsvp);
+  class Event extends Model {
+    const Event = sequelize.define('Event', {
+      title: DataTypes.STRING,
+      desc: DataTypes.TEXT,
+      imgUrl: DataTypes.STRING //add this line (don't forget the comma above!)
+    }, {});
+    static associate(models) {
+      // define association here
+    }
   };
-
+  Event.init({
+    title: DataTypes.STRING,
+    desc: DataTypes.TEXT
+  }, {
+    sequelize,
+    modelName: 'Event',
+  });
   return Event;
 };

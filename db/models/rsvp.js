@@ -10,9 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Rsvp.associate = function(models) {
-        Rsvp.belongsTo(models.Event); // EventId
-      };
+      // define association here
     }
   };
   Rsvp.init({
